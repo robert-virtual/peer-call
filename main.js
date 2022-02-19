@@ -37,11 +37,15 @@ let localStream = new MediaStream();
 
   peer.on("call", (call) => {
     // Answer the call, providing our mediaStream
+    let streamId;
     call.answer(localStream);
     call.on("stream", function (remoteStream) {
       // `stream` is the MediaStream of the remote peer.
       // Here you'd add it to an HTML video/canvas element.
-      addVideoStream(remoteStream, "Remoto", true);
+      if (streamId !== remoteStream.id) {
+        addVideoStream(remoteStream, "Remoto", true);
+        streamId = remoteStream.id;
+      }
     });
   });
 })();
