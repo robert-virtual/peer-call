@@ -16,7 +16,7 @@ let localStream = new MediaStream();
     audio: true,
   });
 
-  // addVideoStream(localStream, true);
+  addVideoStream(localStream, true);
   llamar.addEventListener("click", async () => {
     //   var conn = peer.connect(callId.value);
     //   console.log(conn);
