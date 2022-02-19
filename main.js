@@ -17,16 +17,23 @@ let localStream = new MediaStream();
   });
 
   addVideoStream(localStream, "Local", true);
-  llamar.addEventListener("click", async () => {
+  llamar.addEventListener("click", () => {
     //   var conn = peer.connect(callId.value);
     //   console.log(conn);
+    console.log("llamar.EventListener.click");
     let call = peer.call(callId.value, localStream);
+    // addVideoStream(localStream, true);
+    let streamId;
     call.on("stream", (remoteStream) => {
       // `stream` is the MediaStream of the remote peer.
       // Here you'd add it to an HTML video/canvas element.
-      addVideoStream(remoteStream, "Remoto", true);
+      console.log(sameStream, remoteStream);
+      if (streamId !== remoteStream.id) {
+        console.log("remoteStream", remoteStream);
+        addVideoStream(remoteStream, "Remoto", true);
+        streamId = remoteStream.id;
+      }
     });
-    // addVideoStream(localStream, true);
   });
 
   peer.on("call", (call) => {
