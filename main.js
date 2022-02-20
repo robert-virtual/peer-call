@@ -15,37 +15,30 @@ let localStream = new MediaStream();
     video: true,
     audio: true,
   });
+  const myVideo = document.createElement("video");
+  addVideoStream(myVideo, localStream, "Local", true);
 
-  addVideoStream(localStream, "Local", true);
   llamar.addEventListener("click", () => {
     //   var conn = peer.connect(callId.value);
     //   console.log(conn);
     console.log("llamar.EventListener.click");
     let call = peer.call(callId.value, localStream);
-    // addVideoStream(localStream, true);
-    let streamId;
+    const newVideo = document.createElement("video");
     call.on("stream", (remoteStream) => {
-      // `stream` is the MediaStream of the remote peer.
-      // Here you'd add it to an HTML video/canvas element.
-      if (streamId !== remoteStream.id) {
-        console.log("remoteStream", remoteStream);
-        addVideoStream(remoteStream, "Remoto", true);
-        streamId = remoteStream.id;
-      }
+      addVideoStream(newVideo, remoteStream, "Remoto", true);
+    });
+    call.on("close", () => {
+      newVideo.remove();
     });
   });
 
   peer.on("call", (call) => {
     // Answer the call, providing our mediaStream
-    let streamId;
     call.answer(localStream);
-    call.on("stream", function (remoteStream) {
-      // `stream` is the MediaStream of the remote peer.
-      // Here you'd add it to an HTML video/canvas element.
-      if (streamId !== remoteStream.id) {
-        addVideoStream(remoteStream, "Remoto", true);
-        streamId = remoteStream.id;
-      }
+
+    const newVideo = document.createElement("video");
+    call.on("stream", (remoteStream = new MediaStream()) => {
+      addVideoStream(newVideo, remoteStream, "Remoto", true);
     });
   });
 })();
