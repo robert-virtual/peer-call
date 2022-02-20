@@ -25,7 +25,7 @@ let localStream = new MediaStream();
     let call = peer.call(callId.value, localStream);
     const newVideo = document.createElement("video");
     call.on("stream", (remoteStream) => {
-      addVideoStream(newVideo, remoteStream, "Remoto", true);
+      addVideoStream(newVideo, remoteStream, "Remoto yo llame", true);
     });
     call.on("close", () => {
       newVideo.remove();
@@ -38,7 +38,7 @@ let localStream = new MediaStream();
 
     const newVideo = document.createElement("video");
     call.on("stream", (remoteStream = new MediaStream()) => {
-      addVideoStream(newVideo, remoteStream, "Remoto", true);
+      addVideoStream(newVideo, remoteStream, "Remoto entrante", true);
     });
     call.on("close", () => {
       newVideo.remove();
