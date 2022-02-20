@@ -40,5 +40,8 @@ let localStream = new MediaStream();
     call.on("stream", (remoteStream = new MediaStream()) => {
       addVideoStream(newVideo, remoteStream, "Remoto", true);
     });
+    call.on("close", () => {
+      newVideo.remove();
+    });
   });
 })();
